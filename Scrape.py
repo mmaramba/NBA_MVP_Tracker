@@ -21,8 +21,6 @@ def findCandidates():
 
 	return url_list
 
-def parseTable
-
 def writeStatsToCSV(csvfile, url_list):
 
 	# Set up CSV file
