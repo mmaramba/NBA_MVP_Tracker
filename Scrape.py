@@ -106,12 +106,10 @@ def getVotingData(csvfile):
 
 
 def main():
-	'''
 	candidates = findCandidates()
 
 	with open('players.csv', 'w') as csvfile:
 		writeStatsToCSV(csvfile, candidates)
-	'''
 
 	with open('mvp.csv', 'w') as trainfile:
 		getVotingData(trainfile)
