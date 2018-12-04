@@ -41,25 +41,14 @@ def writeStatsToCSV(csvfile, url_list):
 
 		# Individual stats
 		row = soup.find("tr", { "id" : "per_game.2019" })
-
-		age = row.find("td", { "data-stat" : "age" }).text
-		games = row.find("td", { "data-stat" : "g" }).text
-		mins = row.find("td", { "data-stat" : "mp_per_g" }).text
-		points = row.find("td", { "data-stat" : "pts_per_g" }).text
-		rebs = row.find("td", { "data-stat" : "trb_per_g" }).text
-		assists = row.find("td", { "data-stat" : "ast_per_g" }).text
-		steals = row.find("td", { "data-stat" : "stl_per_g" }).text
-		blocks = row.find("td", { "data-stat" : "blk_per_g" }).text
-		fg_pct = row.find("td", { "data-stat" : "fg_pct" }).text
-		fg3_pct = row.find("td", { "data-stat" : "fg3_pct" }).text
-		ft_pct = row.find("td", { "data-stat" : "ft_pct" }).text
+		parsed = parseItem(row)
 
 		# Win shares
 		winshare_table = soup.find("div", { "class" : "p3" })
 		winshare = winshare_table.findAll("p")[2].text
 		
 		# Write to CSV
-		info = [name, age, games, mins, points, rebs, assists, steals, blocks, fg_pct, fg3_pct, ft_pct, winshare]
+		info = [name, *parsed, winshare]
 		writer.writerow(info)
 
 def getVotingData(csvfile):
@@ -82,26 +71,35 @@ def getVotingData(csvfile):
 		# MVP Table
 		mvps = soup.find("div", { "id" : "div_mvp" })
 
+		
 		# Parse table
 		name = mvps.find("td", { "class" : "left " }).text
-		age = mvps.find("td", { "data-stat" : "age" }).text
-		games = mvps.find("td", { "data-stat" : "g" }).text
-		mins = mvps.find("td", { "data-stat" : "mp_per_g" }).text
-		points = mvps.find("td", { "data-stat" : "pts_per_g" }).text
-		rebs = mvps.find("td", { "data-stat" : "trb_per_g" }).text
-		assists = mvps.find("td", { "data-stat" : "ast_per_g" }).text
-		steals = mvps.find("td", { "data-stat" : "stl_per_g" }).text
-		blocks = mvps.find("td", { "data-stat" : "blk_per_g" }).text
-		fg_pct = mvps.find("td", { "data-stat" : "fg_pct" }).text
-		fg3_pct = mvps.find("td", { "data-stat" : "fg3_pct" }).text
-		ft_pct = mvps.find("td", { "data-stat" : "ft_pct" }).text
+		parsed = parseItem(mvps)
 
 		winshare = mvps.find("td", { "data-stat" : "ws" }).text
 		voteshare = mvps.find("td", { "data-stat" : "award_share" }).text
 
-		info = [name, age, games, mins, points, rebs, assists, steals, blocks, fg_pct, fg3_pct, ft_pct, winshare, voteshare]
+		info = [name, *parsed, winshare, voteshare]
 		writer.writerow(info)
 
+# Parses HTML table for specific elements
+def parseItem(item):
+
+	age = item.find("td", { "data-stat" : "age" }).text
+	games = item.find("td", { "data-stat" : "g" }).text
+	mins = item.find("td", { "data-stat" : "mp_per_g" }).text
+	points = item.find("td", { "data-stat" : "pts_per_g" }).text
+	rebs = item.find("td", { "data-stat" : "trb_per_g" }).text
+	assists = item.find("td", { "data-stat" : "ast_per_g" }).text
+	steals = item.find("td", { "data-stat" : "stl_per_g" }).text
+	blocks = item.find("td", { "data-stat" : "blk_per_g" }).text
+	fg_pct = item.find("td", { "data-stat" : "fg_pct" }).text
+	fg3_pct = item.find("td", { "data-stat" : "fg3_pct" }).text
+	ft_pct = item.find("td", { "data-stat" : "ft_pct" }).text
+
+	info = [age, games, mins, points, rebs, assists, steals, blocks, fg_pct, fg3_pct, ft_pct]
+
+	return info
 
 
 def main():
