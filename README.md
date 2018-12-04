@@ -7,6 +7,8 @@ Makes predictions on current NBA MVP.
 
 Dependencies: BeautifulSoup 4, Pandas, NumPy, Pydotplus, scikit-learn
 
-To run: 
+To run:
+ 
 python3 Scrape.py (to scrape bbref data and store in csv)
+
 python3 Predict.py (to train model and make predictions)
