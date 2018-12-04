@@ -21,6 +21,8 @@ def findCandidates():
 
 	return url_list
 
+def parseTable
+
 def writeStatsToCSV(csvfile, url_list):
 
 	# Set up CSV file
@@ -37,10 +39,9 @@ def writeStatsToCSV(csvfile, url_list):
 		response = requests.get(url)
 		soup = BeautifulSoup(response.content, "html.parser")
 
-		#print(soup)
 		name = soup.find("h1", { "itemprop" : "name" }).text
 
-		# Individual  stats
+		# Individual stats
 		row = soup.find("tr", { "id" : "per_game.2019" })
 
 		age = row.find("td", { "data-stat" : "age" }).text
@@ -83,7 +84,7 @@ def getVotingData(csvfile):
 		# MVP Table
 		mvps = soup.find("div", { "id" : "div_mvp" })
 
-		# Similar to other function
+		# Parse table
 		name = mvps.find("td", { "class" : "left " }).text
 		age = mvps.find("td", { "data-stat" : "age" }).text
 		games = mvps.find("td", { "data-stat" : "g" }).text
@@ -106,6 +107,7 @@ def getVotingData(csvfile):
 
 
 def main():
+	
 	candidates = findCandidates()
 
 	with open('players.csv', 'w') as csvfile:
